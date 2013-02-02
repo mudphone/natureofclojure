@@ -1,6 +1,6 @@
 # natureofclojure
 
-A bunch of Clojure Quil examples based on Daniel Shiffman's Nature of Code video channel on Vimeo.
+A bunch of Clojure [Quil](https://github.com/quil/quil "Quil") examples based on [Daniel Shiffman's Nature of Code video channel on Vimeo](http://here: https://vimeo.com/channels/464686 "Nature of Code videos").
 
 [Check out the videos on Vimeo.](http://here: https://vimeo.com/channels/464686 "Nature of Code videos")  
 Seriously, check them out, they're great.
