@@ -17,7 +17,7 @@ These sketches require the [Clojure Quil library](https://github.com/quil/quil "
 Install dependencies in root dir:  
 
 ````
-$ cd path/to/quil-bifocals-examples      
+$ cd path/to/natureofclojure      
 $ lein deps
 ````  
 
