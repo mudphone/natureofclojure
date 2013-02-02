@@ -28,6 +28,15 @@ C-c C-k (in the sketch's buffer)
 ;; The sketch should appear.  Check the Java process window.
 ````
 
+Helpful buffer commands for working with nREPL:  
+````
+C-c M-n (to switch repl to this ns)
+C-x C-c (eval buffer in repl)
+M-C-x (eval form under point in repl <-- allows live coding!!!)
+C-c C-z (switch to repl buffer)
+````  
+See others at the [nREPL README](https://github.com/kingtim/nrepl.el "nREPL README").
+
 ## License
 
 Copyright © 2013  [Pas de Chocolat, LLC](http://pasdechocolat.com/ "Awesome website")  
