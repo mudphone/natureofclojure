@@ -1,4 +1,4 @@
-(ns natureofclojure.intro-2.probability-basics
+(ns natureofclojure.i-2.random-walk-tends-to-right
   (:require [quil.core :as qc]))
 
 (def WIDTH 800)
@@ -28,9 +28,9 @@
   (pull-walker walker)
   (render-walker-at-position @walker))
 
-(defn run-2-1 []
-  (qc/defsketch another-walker
-    :title "Pulled Walker"
+(defn run []
+  (qc/defsketch random-walk-tends-to-right
+    :title "Random Walk Tends to Right"
     :setup setup
     :draw draw
     :size [WIDTH HEIGHT]))

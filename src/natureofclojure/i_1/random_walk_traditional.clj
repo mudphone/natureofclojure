@@ -1,4 +1,4 @@
-(ns natureofclojure.intro-1.random-walker
+(ns natureofclojure.i-1.random-walk-traditional
   (:require [quil.core :as qc]))
 
 (def WIDTH 800)
@@ -26,9 +26,9 @@
   (step-walker walker)
   (render-walker-at-position @walker))
 
-(defn run-1-1 []
-  (qc/defsketch random-walker
-    :title "Random Walker"
+(defn run []
+  (qc/defsketch random-walk-traditional
+    :title "Random Walk Traditional"
     :setup setup
     :draw draw
     :size [WIDTH HEIGHT]))
