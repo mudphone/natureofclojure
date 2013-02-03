@@ -24,7 +24,10 @@ $ lein deps
 You can view these example sketches by running them from the repl.  I use Emacs and nREPL.  If you have [the same setup](https://gist.github.com/4698169 "My Clojure Emacs setup") you can just start a nREPL process and eval the sketch buffer:
 ````
 M-x nrepl-jack-in
-C-c C-k (in the sketch's buffer)
+C-c M-n    ;; to switch repl to this namespace.
+C-c C-k    ;; in the sketch's buffer to eval namespace.
+(run-x-x)  ;; runs the sketch 
+           ;; (substituting x for whatever number exercise).
 ;; The sketch should appear.  Check the Java process window.
 ````
 
