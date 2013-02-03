@@ -1,3 +1,10 @@
+;; Based on the Nature of Code
+;; by Daniel Shiffman
+;; http://natureofcode.com
+;;
+;; Specifically:
+;; https://github.com/shiffman/The-Nature-of-Code-Examples/tree/master/Processing/introduction/NOC_I_3_RandomWalkTendsToRight
+;;
 (ns natureofclojure.i-2.random-walk-tends-to-right
   (:require [quil.core :as qc]))
 
