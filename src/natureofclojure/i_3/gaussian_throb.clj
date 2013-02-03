@@ -1,3 +1,7 @@
+;; Based on the Nature of Code
+;; by Daniel Shiffman
+;; http://natureofcode.com
+;;
 (ns natureofclojure.i-3.gaussian-throb
   (:import [java.util Random])
   (:require [quil.core :as qc]))
@@ -23,11 +27,3 @@
     :setup setup
     :draw draw
     :size [WIDTH HEIGHT]))
-
-
-
-
-
-
-
-
