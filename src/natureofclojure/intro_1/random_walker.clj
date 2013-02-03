@@ -8,10 +8,10 @@
 
 (defn step-walker [w-atom]
   (let [choice (rand-int 4)]
-    (cond (= choice 0) (swap! w-atom update-in [:x] #(qc/constrain-float (+ % 1) 0 WIDTH)))
-    (cond (= choice 1) (swap! w-atom update-in [:x] #(qc/constrain-float (- % 1) 0 WIDTH)))
-    (cond (= choice 2) (swap! w-atom update-in [:y] #(qc/constrain-float (+ % 1) 0 HEIGHT)))
-    (cond (= choice 3) (swap! w-atom update-in [:y] #(qc/constrain-float (- % 1) 0 HEIGHT)))))
+    (cond (= choice 0) (swap! w-atom update-in [:x] #(qc/constrain-float (+ % 1) 0 WIDTH))
+          (= choice 1) (swap! w-atom update-in [:x] #(qc/constrain-float (- % 1) 0 WIDTH))
+          (= choice 2) (swap! w-atom update-in [:y] #(qc/constrain-float (+ % 1) 0 HEIGHT))
+          (= choice 3) (swap! w-atom update-in [:y] #(qc/constrain-float (- % 1) 0 HEIGHT)))))
 
 (defn render-walker-at-position [position]
   (qc/stroke 0)
