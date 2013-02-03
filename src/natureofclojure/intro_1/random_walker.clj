@@ -1,5 +1,5 @@
 (ns natureofclojure.intro-1.random-walker
-  (:use [quil.core :as qc]))
+  (:require [quil.core :as qc]))
 
 (def WIDTH 800)
 (def HEIGHT 600)
@@ -14,20 +14,21 @@
     (cond (= choice 3) (swap! w-atom update-in [:y] #(qc/constrain-float (- % 1) 0 HEIGHT)))))
 
 (defn render-walker-at-position [position]
-  (stroke 0)
-  (point (:x position) (:y position)))
+  (qc/stroke 0)
+  (qc/point (:x position) (:y position)))
 
 (defn setup []
-  (frame-rate 60)
-  (background 255)
-  (smooth))
+  (qc/frame-rate 60)
+  (qc/background 255)
+  (qc/smooth))
 
 (defn draw []
   (step-walker walker)
   (render-walker-at-position @walker))
 
-(defsketch random-walker
-  :title "Random Walker"
-  :setup setup
-  :draw draw
-  :size [WIDTH HEIGHT])
+(defn run-1-1 []
+  (qc/defsketch random-walker
+    :title "Random Walker"
+    :setup setup
+    :draw draw
+    :size [WIDTH HEIGHT]))
