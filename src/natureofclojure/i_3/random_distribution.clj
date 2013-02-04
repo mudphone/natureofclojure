@@ -3,7 +3,7 @@
 
 (def WIDTH 800)
 (def HEIGHT 200)
-(def random-counts (atom (vec (take 20 (cycle [0])))))
+(def random-counts (atom (vec (replicate 20 0))))
 
 (defn setup [])
 
