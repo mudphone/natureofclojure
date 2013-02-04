@@ -6,25 +6,8 @@
 ;; https://github.com/shiffman/The-Nature-of-Code-Examples/tree/master/Processing/introduction/NOC_I_3_RandomWalkTendsToRight
 ;;
 (ns natureofclojure.i-2.random-walk-tends-to-right
-  (:require [quil.core :as qc]))
-
-(def WIDTH 800)
-(def HEIGHT 600)
-(def walker (atom {:x (/ WIDTH 2.0)
-                   :y (/ HEIGHT 2.0)}))
-
-(defn pull-walker
-  "Slightly altered stepper to pull to the right."
-  [w-atom]
-  (let [choice (rand-int 100)]
-    (cond (< choice 40) (swap! w-atom update-in [:x] #(qc/constrain-float (+ % 1) 0 WIDTH))
-          (< choice 60) (swap! w-atom update-in [:x] #(qc/constrain-float (- % 1) 0 WIDTH))
-          (< choice 80) (swap! w-atom update-in [:y] #(qc/constrain-float (+ % 1) 0 HEIGHT))
-          :else (swap! w-atom update-in [:y] #(qc/constrain-float (- % 1) 0 HEIGHT)))))
-
-(defn render-walker-at-position [position]
-  (qc/stroke 0)
-  (qc/point (:x position) (:y position)))
+  (:require [quil.core :as qc]
+            [natureofclojure.i-2.walker.tends-to-right :as ttr]))
 
 (defn setup []
   (qc/frame-rate 60)
@@ -32,12 +15,12 @@
   (qc/smooth))
 
 (defn draw []
-  (pull-walker walker)
-  (render-walker-at-position @walker))
+  (ttr/pull-walker ttr/walker)
+  (ttr/render-walker @ttr/walker))
 
 (defn run []
   (qc/defsketch random-walk-tends-to-right
     :title "Random Walk Tends to Right"
     :setup setup
     :draw draw
-    :size [WIDTH HEIGHT]))
+    :size [ttr/WIDTH ttr/HEIGHT]))

@@ -23,4 +23,4 @@
     :title "Random Walk Traditional"
     :setup setup
     :draw draw
-    :size [WIDTH HEIGHT]))
+    :size [wt/WIDTH wt/HEIGHT]))
