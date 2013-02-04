@@ -64,8 +64,3 @@
     :setup setup
     :draw draw
     :size [WIDTH HEIGHT]))
-
-
-
-
-
