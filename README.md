@@ -25,10 +25,9 @@ You can view these example sketches by running them from the repl.  I use Emacs 
 ````
 ;; go to buffer for the example you wish to run
 M-x nrepl-jack-in
-C-c M-n    ;; to switch repl to this namespace.
-C-c C-k    ;; in the sketch's buffer to eval namespace.
-(run)      ;; runs the sketch 
-           ;; (substituting x for whatever number exercise).
+(use '[natureofclojure.i-5.perlin-noise :as pn])
+C-c C-k       ;; in the sketch's buffer to eval namespace.
+(pn/run)      ;; runs the sketch 
 ;; The sketch should appear.  Check the Java process window.
 ````
 
