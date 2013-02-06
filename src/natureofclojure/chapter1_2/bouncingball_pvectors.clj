@@ -5,7 +5,7 @@
 ;; Specifically:
 ;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp1_vectors/NOC_1_2_bouncingball_vectors/NOC_1_2_bouncingball_vectors.pde
 ;;
-(ns natureofclojure.chapter1-1.bouncingball-pvectors
+(ns natureofclojure.chapter1-2.bouncingball-pvectors
   (:import [processing.core PVector])
   (:require [quil.core :as qc]))
 

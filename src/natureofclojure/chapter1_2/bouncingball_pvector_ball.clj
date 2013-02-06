@@ -2,9 +2,9 @@
 ;; by Daniel Shiffman
 ;; http://natureofcode.com
 ;;
-(ns natureofclojure.chapter1-1.bouncingball-pvector-ball
+(ns natureofclojure.chapter1-2.bouncingball-pvector-ball
   (:require [quil.core :as qc]
-            [natureofclojure.chapter1-1.ball.pvector-ball :as pb]))
+            [natureofclojure.chapter1-2.ball.pvector-ball :as pb]))
 
 (defn setup [])
 

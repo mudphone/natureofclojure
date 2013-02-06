@@ -2,7 +2,7 @@
 ;; by Daniel Shiffman
 ;; http://natureofcode.com
 ;;
-(ns natureofclojure.chapter1-1.ball.pvector-ball
+(ns natureofclojure.chapter1-2.ball.pvector-ball
   (:import [processing.core PVector])
   (:require [quil.core :as qc]))
 
