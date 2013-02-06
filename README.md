@@ -22,7 +22,7 @@ $ lein deps
 ````  
 
 You can view these example sketches by running them from the repl.  I use Emacs and nREPL.  If you have [the same setup](https://gist.github.com/4698169 "My Clojure Emacs setup") you can just start a nREPL process and eval the sketch buffer:
-````
+````clojure
 ;; go to buffer for the example you wish to run
 M-x nrepl-jack-in
 (require '[natureofclojure.i-5.perlin-noise :as pn])
