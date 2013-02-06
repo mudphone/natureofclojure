@@ -3,7 +3,6 @@
 ;; http://natureofcode.com
 ;;
 (ns natureofclojure.chapter1-1.bouncingball-pvector-ball
-  (:import [processing.core PVector])
   (:require [quil.core :as qc]
             [natureofclojure.chapter1-1.ball.pvector-ball :as pb]))
 
