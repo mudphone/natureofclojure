@@ -41,14 +41,14 @@
                    y (range rows)
                    :let [x-off (* 0.01 x)
                          y-off (* 0.01 y)]]
-               {[x y] (qc/map-range (qc/noise x-off y-off z-off) 0 1 -800 800)}))))
+               {[x y] (qc/map-range (qc/noise x-off y-off z-off) 0 1 -400 400)}))))
 
 (defn update-landscape-z [ls]
   (let [z (calculate-z (:width ls)
                        (:height ls)
                        (:z-off ls))]
     (-> (assoc-in ls [:z] z)
-        (update-in [:z-off] #(+ % 0.05)))))
+        (update-in [:z-off] #(+ % 0.01)))))
 
 (defn calculate! [ls-atom]
   (swap! ls-atom update-landscape-z))
@@ -60,11 +60,10 @@
         z (:z ls)]
     (dorun
      (for [x (range (- w 1))
-           y (range (- h 1))
-           :let [fill-color (qc/map-range (z [x y]) -120 120 0 255)]]
+           y (range (- h 1))]
        (do
          (qc/stroke 0)
-         (qc/fill fill-color 100)
+         (qc/fill 100 100)
         
          (qc/push-matrix)
          (qc/begin-shape :quads)
