@@ -2,8 +2,10 @@
 ;; by Daniel Shiffman
 ;; http://natureofcode.com
 ;;
-(ns natureofclojure.ch1-3-vector-math.mouse-subtraction
-  (:import [processing.core PVector])
+;; Specifically:
+;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp1_vectors/NOC_1_3_vector_subtraction/NOC_1_3_vector_subtraction.pde
+;;
+(ns natureofclojure.ch1-3-vector-math.vector-subtraction
   (:require [quil.core :as qc]))
 
 (def WIDTH 500.0)
@@ -25,8 +27,8 @@
     (qc/line 0 0 (first s) (second s))))
 
 (defn run []
-  (qc/defsketch mouse-subtraction
-    :title "Mouse Subtraction"
+  (qc/defsketch vector-subtraction
+    :title "Vector Subtraction"
     :setup setup
     :draw draw
     :size [WIDTH HEIGHT]))
