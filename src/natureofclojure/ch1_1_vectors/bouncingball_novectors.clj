@@ -5,7 +5,7 @@
 ;; Specifically:
 ;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp1_vectors/NOC_1_1_bouncingball_novectors/NOC_1_1_bouncingball_novectors.pde
 ;;
-(ns natureofclojure.chapter1-1.bouncingball-novectors
+(ns natureofclojure.ch1-1-vectors.bouncingball-novectors
   (:require [quil.core :as qc]))
 
 (def WIDTH 800.0)

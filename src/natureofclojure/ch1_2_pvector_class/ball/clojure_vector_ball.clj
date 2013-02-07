@@ -2,7 +2,7 @@
 ;; by Daniel Shiffman
 ;; http://natureofcode.com
 ;;
-(ns natureofclojure.chapter1-2.ball.clojure-vector-ball
+(ns natureofclojure.ch1-2-pvector-class.ball.clojure-vector-ball
   (:require [quil.core :as qc]))
 
 (def WIDTH 200.0)
