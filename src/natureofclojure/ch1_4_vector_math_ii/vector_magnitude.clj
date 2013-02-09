@@ -7,23 +7,21 @@
 ;;
 (ns natureofclojure.ch1-4-vector-math-ii.vector-magnitude
   (:require [quil.core :as qc]
-            [clojure.math.numeric-tower :as math]))
+            [clojure.math.numeric-tower :as math])
+  (:use [natureofclojure.math.vector :as mv]))
 
 (def WIDTH 800.0)
 (def HEIGHT 200.0)
 
 (defn setup [])
 
-(defn magnitude [v]
- (math/sqrt (reduce + (map #(math/expt % 2) v))))
-
 (defn draw []
   (qc/background 255)
   
   (let [mouse [(qc/mouse-x) (qc/mouse-y)]
         center [(/ WIDTH 2.0) (/ HEIGHT 2.0)]
-        s (map - mouse center)
-        m (magnitude s)]
+        s (mv/subtract mouse center)
+        m (mv/magnitude s)]
     (qc/fill 0)
     (qc/no-stroke)
     (qc/rect 0 0 m 10)
