@@ -6,8 +6,7 @@
 ;; https://github.com/shiffman/The-Nature-of-Code-Examples/tree/master/Processing/chp1_vectors/NOC_1_6_vector_normalize
 ;;
 (ns natureofclojure.ch1-4-vector-math-ii.vector-normalize
-  (:require [quil.core :as qc]
-            [clojure.math.numeric-tower :as math])
+  (:require [quil.core :as qc])
   (:use [natureofclojure.math.vector :as mv]))
 
 (def WIDTH 800.0)
