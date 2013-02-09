@@ -20,7 +20,7 @@
   
   (let [mouse [(qc/mouse-x) (qc/mouse-y)]
         center [(/ WIDTH 2.0) (/ HEIGHT 2.0)]
-        s (map - mouse center)
+        s (mv/subtract mouse center)
         n (mv/normalize s)
         m (mv/multiply 150 n)]
     (qc/translate (/ WIDTH 2.0) (/ HEIGHT 2.0))
