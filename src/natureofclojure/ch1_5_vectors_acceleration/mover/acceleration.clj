@@ -3,25 +3,30 @@
 ;; http://natureofcode.com
 ;;
 ;; Specifically:
-;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp1_vectors/NOC_1_7_motion101/Mover.pde
+;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp1_vectors/NOC_1_8_motion101_acceleration/Mover.pde
 ;;
-(ns natureofclojure.ch1-5-vectors-acceleration.mover.no-acceleration
+(ns natureofclojure.ch1-5-vectors-acceleration.mover.acceleration
   (:require [quil.core :as qc]
             [clojure.math.numeric-tower :as math])
   (:use [natureofclojure.math.vector :as mv]))
 
-(def mover (atom { :location []
-                   :velocity [] }))
+(def mover (atom {:location []
+                  :velocity []
+                  :acceleration []
+                  :top-speed 10.0}))
 
 (defn init-mover [width height m]
-  (-> (assoc-in m [:location] [(rand width) (rand height)])
-      (assoc-in [:velocity] [(- (rand 4) 2.0) (- (rand 4) 2.0)])))
+  (-> (assoc-in m [:location] [(/ width 2.0) (/ height 2.0)])
+      (assoc-in [:velocity] [0.0 0.0])
+      (assoc-in [:acceleration] [-0.001 0.01])))
 
 (defn initialize [m-atom width height]
   (swap! m-atom (partial init-mover width height)))
 
 (defn update-mover [m]
-  (assoc-in m [:location] (mv/add (:location m) (:velocity m))))
+  (-> (update-in m [:velocity] #(mv/add % (:acceleration m)))
+      (update-in [:velocity] #(mv/limit (:top-speed m) %))
+      (update-in [:location] #(mv/add % (:velocity m)))))
 
 (defn update [m-atom]
   (swap! m-atom update-mover))

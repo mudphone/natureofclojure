@@ -20,3 +20,9 @@
 
 (defn multiply [scalar v]
   (vec (map * (repeat scalar) v)))
+
+(defn limit [upper v]
+  (let [m (magnitude v)]
+    (if (> m upper)
+      (multiply upper (normalize v))
+      v)))
