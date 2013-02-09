@@ -26,3 +26,6 @@
     (if (> m upper)
       (multiply upper (normalize v))
       v)))
+
+(defn random-2d []
+  (normalize [(- (rand 2) 1.0) (- (rand 2) 1.0)]))
