@@ -7,22 +7,13 @@
 ;;
 (ns natureofclojure.ch1-4-vector-math-ii.vector-normalize
   (:require [quil.core :as qc]
-            [clojure.math.numeric-tower :as math]))
+            [clojure.math.numeric-tower :as math])
+  (:use [natureofclojure.math.vector :as mv]))
 
 (def WIDTH 800.0)
 (def HEIGHT 200.0)
 
 (defn setup [])
-
-(defn magnitude [v]
- (math/sqrt (reduce + (map #(math/expt % 2) v))))
-
-(defn normalize [v]
-  (let [m (magnitude v)]
-    (vec (map #(/ % m) v))))
-
-(defn multiply [scalar v]
-  (vec (map * (repeat scalar) v)))
 
 (defn draw []
   (qc/background 255)
@@ -30,8 +21,8 @@
   (let [mouse [(qc/mouse-x) (qc/mouse-y)]
         center [(/ WIDTH 2.0) (/ HEIGHT 2.0)]
         s (map - mouse center)
-        n (normalize s)
-        m (multiply 150 n)]
+        n (mv/normalize s)
+        m (mv/multiply 150 n)]
     (qc/translate (/ WIDTH 2.0) (/ HEIGHT 2.0))
     (qc/stroke 0)
     (qc/stroke-weight 2)
