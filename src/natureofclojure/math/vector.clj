@@ -5,8 +5,11 @@
 (ns natureofclojure.math.vector
   (:require [clojure.math.numeric-tower :as math]))
 
+(defn add [& vs]
+  (vec (apply map + vs)))
+
 (defn subtract [& vs]
-  (apply map - vs))
+  (vec (apply map - vs)))
 
 (defn magnitude [v]
  (math/sqrt (reduce + (map #(math/expt % 2) v))))
