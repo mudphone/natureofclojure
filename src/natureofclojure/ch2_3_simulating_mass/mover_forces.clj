@@ -35,14 +35,14 @@
 
 (defn update [m]
   (-> (update-in m [:velocity] #(mv/add % (:acceleration m)))
-      (update-in [:velocity] #(mv/limit 5.0 %))
+      (update-in [:velocity] #(mv/limit 6.0 %))
       (update-in [:location] #(mv/add % (:velocity m)))
       (assoc-in [:acceleration] [0.0 0.0])))
 
 (defn display [m]
   (qc/stroke 0)
   (qc/stroke-weight 2)
-  (qc/fill 127)
+  (qc/fill 127 100)
   (let [d (* 16.0 (:mass m))]
     (apply #(qc/ellipse %1 %2 d d) (:location m))))
 
