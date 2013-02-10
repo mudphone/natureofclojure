@@ -11,22 +11,22 @@
 
 (def WIDTH 800.0)
 (def HEIGHT 200.0)
+(def m (atom (mover/mover [30.0 30.0])))
 
-(defn setup []
-  (mover/initialize mover/mover WIDTH HEIGHT))
+(defn setup [])
 
 (defn draw []
   (qc/background 255)
 
   ;; wind
-  (mover/apply-force [0.01, 0.0] mover/mover)
+  (mover/apply-force [0.01, 0.0] m)
 
   ;; gravity
-  (mover/apply-force [0.0, 0.1] mover/mover)
+  (mover/apply-force [0.0, 0.1] m)
   
-  (mover/update mover/mover)
-  (mover/display @mover/mover)
-  (mover/check-edges mover/mover WIDTH HEIGHT))
+  (mover/update m)
+  (mover/display @m)
+  (mover/check-edges m WIDTH HEIGHT))
 
 (defn run []
   (qc/defsketch what-is-a-force

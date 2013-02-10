@@ -9,18 +9,22 @@
   (:require [quil.core :as qc])
   (:use [natureofclojure.math.vector :as mv]))
 
-(def mover (atom {:location []
-                  :velocity []
-                  :acceleration []
-                  :mass 1.0}))
-
-(defn init-mover [width height m]
-  (-> (assoc-in m [:location] [30.0 30.0])
+(defn init-mover [location mass m]
+  (-> (assoc-in m [:location] location)
       (assoc-in [:velocity] [0.0 0.0])
-      (assoc-in [:acceleration] [0.0 0.0])))
+      (assoc-in [:acceleration] [0.0 0.0])
+      (assoc-in [:mass] mass)))
 
-(defn initialize [m-atom width height]
-  (swap! m-atom (partial init-mover width height)))
+(defn mover
+  ([]
+     {:location []
+      :velocity []
+      :acceleration []
+      :mass 1.0})
+  ([location]
+     (mover location 1.0))
+  ([location mass]
+     (init-mover location mass (mover))))
 
 (defn add-force [f m]
   (let [f (mv/divide f (:mass m))]
