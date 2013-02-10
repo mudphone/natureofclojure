@@ -34,7 +34,7 @@ C-c C-k       ;; in the sketch's buffer to eval namespace.
 Helpful buffer commands for working with nREPL:  
 ````
 C-c M-n (to switch repl to this ns)
-C-x C-c (eval buffer in repl)
+C-c C-k (eval buffer in repl)
 M-C-x (eval form under point in repl <-- allows live coding!!!)
 C-c C-z (switch to repl buffer)
 ````  
