@@ -35,8 +35,8 @@
     (swap! movers (constantly stepped-movers))))
 
 (defn run []
-  (qc/defsketch what-is-a-force
-    :title "What is a force?"
+  (qc/defsketch forces-many
+    :title "Forces: Many"
     :setup setup
     :draw draw
     :size [WIDTH HEIGHT]))
