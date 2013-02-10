@@ -6,8 +6,7 @@
 ;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp1_vectors/NOC_1_8_motion101_acceleration/Mover.pde
 ;;
 (ns natureofclojure.ch1-5-vectors-acceleration.mover.acceleration
-  (:require [quil.core :as qc]
-            [clojure.math.numeric-tower :as math])
+  (:require [quil.core :as qc])
   (:use [natureofclojure.math.vector :as mv]))
 
 (def mover (atom {:location []
