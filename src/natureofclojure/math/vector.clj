@@ -27,5 +27,8 @@
       (multiply upper (normalize v))
       v)))
 
+(defn set-magnitude [mag v]
+  (multiply mag (normalize v)))
+
 (defn random-2d []
   (normalize [(- (rand 2) 1.0) (- (rand 2) 1.0)]))
