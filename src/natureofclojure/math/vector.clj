@@ -21,6 +21,9 @@
 (defn multiply [scalar v]
   (vec (map * (repeat scalar) v)))
 
+(defn divide [v scalar]
+  (vec (map / v (repeat scalar))))
+
 (defn limit [upper v]
   (let [m (magnitude v)]
     (if (> m upper)
