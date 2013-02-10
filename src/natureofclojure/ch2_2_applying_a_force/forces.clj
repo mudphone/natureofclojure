@@ -18,15 +18,12 @@
 (defn draw []
   (qc/background 255)
 
-  ;; wind
-  (mover/apply-force [0.01, 0.0] m)
-
-  ;; gravity
-  (mover/apply-force [0.0, 0.1] m)
-  
-  (mover/update m)
-  (mover/display @m)
-  (mover/check-edges m WIDTH HEIGHT))
+  (let [the-m (-> (mover/apply-force @m [0.01 0.0]) ;; wind
+                  (mover/apply-force [0.0 0.1])     ;; gravity
+                  (mover/update)
+                  (mover/check-edges WIDTH HEIGHT))]
+    (mover/display the-m)
+    (swap! m (constantly the-m))))
 
 (defn run []
   (qc/defsketch what-is-a-force
