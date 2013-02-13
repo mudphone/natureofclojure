@@ -6,8 +6,8 @@
 ;; https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/Processing/chp2_forces/NOC_2_5_fluidresistance/Mover.pde
 ;;
 (ns natureofclojure.ch2-5-drag-force.mover
-  (:require [quil.core :as qc])
-  (:use [natureofclojure.math.vector :as mv]))
+  (:require [quil.core :as qc]
+            [natureofclojure.math.vector :as mv]))
 
 (defn init-mover [location mass m]
   (-> (assoc-in m [:location] location)
