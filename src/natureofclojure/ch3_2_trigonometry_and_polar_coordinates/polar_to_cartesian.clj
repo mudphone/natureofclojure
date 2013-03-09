@@ -9,8 +9,9 @@
   (:require [quil.core :as qc]))
 
 (def WIDTH 800.0)
-(def HEIGHT 200.0)
+(def HEIGHT 400.0)
 (def theta (atom 0.0))
+(def t (atom 0.0))
 
 (defn setup [])
 
@@ -19,17 +20,19 @@
   (qc/ellipse-mode :center)
   (qc/stroke 0)
   (qc/stroke-weight 2)
-  (qc/fill 127)
   
   (qc/translate (/ WIDTH 2.0) (/ HEIGHT 2.0))
 
-  (let [r (* 0.45 HEIGHT)
+  (let [n (qc/noise @t)
+        r (* n 0.5 HEIGHT)
         x (* r (Math/cos @theta))
-        y (* r (Math/sin @theta))]
+        y (* r (Math/sin @theta))
+        d (* n 48)]
+    (qc/fill (qc/map-range n 0.0 1.0 0.0 255.0))
     (qc/line 0 0 x y)
-    (qc/ellipse x y 48 48))
-  
-  (swap! theta (partial + 0.02)))
+    (qc/ellipse x y d d)
+    (swap! theta (partial + (qc/map-range (- 1.0 n) 0.0 1.0 0.0 0.08))))
+  (swap! t (partial + 0.003)))
 
 (defn run []
   (qc/defsketch polar-to-cartesian
