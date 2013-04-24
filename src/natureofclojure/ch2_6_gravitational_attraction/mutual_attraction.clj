@@ -9,8 +9,8 @@
   (:require [quil.core :as qc]
             [natureofclojure.ch2-6-gravitational-attraction.mutual-mover :as mover]))
 
-(def WIDTH 800.0)
-(def HEIGHT 200.0)
+(def WIDTH 1200.0)
+(def HEIGHT 800.0)
 (def movers (atom []))
 
 (defn reset-movers! []
