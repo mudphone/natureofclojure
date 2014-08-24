@@ -64,13 +64,13 @@
   (let [{:keys [len angle]} state
         [x y] (loc len angle)]
     (q/with-translation [(/ (q/width) 2)
-                         (/ (q/height) 2)]
+                         0]
       (draw-ball x y))))
 
 (defn mouse-pressed [state event]
   (let [{:keys [len angle]} state
         [x y] (loc len angle)
-        d (q/dist (- (q/mouse-x) (/ (q/width) 2.0)) (- (q/mouse-y) (/ (q/height) 2.0)) x y)]
+        d (q/dist (- (q/mouse-x) (/ (q/width) 2.0)) (q/mouse-y) x y)]
     (-> state
         (assoc-in [:dragging] (< d len)))))
 
