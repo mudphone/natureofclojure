@@ -21,20 +21,18 @@ $ cd path/to/natureofclojure
 $ lein deps
 ````  
 
-You can view these example sketches by running them from the repl.  I use Emacs and nREPL.  If you have [the same setup](https://gist.github.com/4698169 "My Clojure Emacs setup") you can just start a nREPL process and eval the sketch buffer:
+You can view these example sketches by running them from the repl.  I use Emacs and the Cider nREPL.  If you have [the same setup](https://gist.github.com/4698169 "My Clojure Emacs setup") you can just start a nREPL process and eval the sketch buffer.
+
+Starting with Chapter 3, part 4, I've started working with Quil Middleware and Functional mode. This is how you get it to run.
 ````clojure
 ;; go to buffer for the example you wish to run
-M-x nrepl-jack-in
-(require '[natureofclojure.i-5.perlin-noise :as pn])
+C-c M-j       ;;  M-x cider-jack-in
+C-c M-n       ;;  M-x cider-repl-set-ns
 C-c C-k       ;; in the sketch's buffer to eval namespace.
-(pn/run)      ;; runs the sketch 
-;; The sketch should appear.  Check the Java process window.
 ````
 
 Helpful buffer commands for working with nREPL:  
 ````
-C-c M-n (to switch repl to this ns)
-C-c C-k (eval buffer in repl)
 M-C-x (eval form under point in repl <-- allows live coding!!!)
 C-c C-z (switch to repl buffer)
 ````  
@@ -42,5 +40,5 @@ See others at the [nREPL README](https://github.com/kingtim/nrepl.el "nREPL READ
 
 ## License
 
-Copyright © 2013  [Pas de Chocolat, LLC](http://pasdechocolat.com/ "Awesome website")  
+Copyright © 2014  [Pas de Chocolat, LLC](http://pasdechocolat.com/ "Awesome website")  
 This work is licensed under a [Creative Commons Attribution-ShareAlike 2.0 Generic License](http://creativecommons.org/licenses/by-sa/2.0/ "Creative Commons Attribution-ShareAlike 2.0 Generic License").
