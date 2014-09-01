@@ -5,4 +5,5 @@
             :url "http://creativecommons.org/licenses/by-sa/2.0/"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [quil "2.2.1"]
-                 [org.clojure/math.numeric-tower "0.0.2"]])
+                 [org.clojure/math.numeric-tower "0.0.2"]
+                 [net.mikera/vectorz-clj "0.25.0"]])
