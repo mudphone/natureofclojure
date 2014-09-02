@@ -13,6 +13,7 @@
 
 (matrix/set-current-implementation :vectorz)
 
+(def VEHICLE-R 5.0)
 (def VEHICLES
   [{:location (matrix/array [20 20])
     :velocity (matrix/array [0 0])
@@ -28,6 +29,10 @@
   (if (> (.magnitudeSquared vec) (* max-mag max-mag))
     (mop/* (matrix/normalise vec) max-mag)
     vec))
+
+(defn heading [vec]
+  (let [[x y] (.toList vec)]
+   (* -1.0 (Math/atan2 (* -1.0 y) x))))
 
 (defn seek-vehicle [vehicle]
   (let [target (matrix/array [(q/mouse-x) (q/mouse-y)]) 
@@ -55,10 +60,18 @@
 
 (defn draw-vehicle
   [vehicle]
-  (let [{:keys [location]} vehicle
-        [x y] (.toList location)]
+  (let [{:keys [location velocity]} vehicle
+        [x y] (.toList location)
+        [vx vy] (.toList velocity)
+        theta (+ (/ Math/PI 2.0)
+                 (heading (matrix/array [vx vy])))]
     (q/with-translation [x y]
-      (q/rect 0 0 10 10))))
+      (q/with-rotation [theta]
+        (q/begin-shape)
+        (q/vertex 0                  (* -2.0 VEHICLE-R))
+        (q/vertex (* -1.0 VEHICLE-R) (* 2.0 VEHICLE-R))
+        (q/vertex VEHICLE-R          (* 2.0 VEHICLE-R))
+        (q/end-shape :close)))))
 
 (defn draw [state]
   (q/background 0)
