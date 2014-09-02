@@ -15,6 +15,9 @@
 (defn magnitude-squared [v]
   (.magnitudeSquared v))
 
+(defn magnitude [v]
+  (.magnitude v))
+
 (defn x-y [v]
   (.toList v))
 
