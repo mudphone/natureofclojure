@@ -51,15 +51,16 @@
 
 (defn draw-flow-field [flow]
   (doseq [[key v] flow]
-    (let [[x y] (map (partial * RESOLUTION) key)
+    (let [[x y] (map #(+ (/ RESOLUTION 2.0) (* RESOLUTION %)) key)
           len (* FLOW-SCALE (fvec/magnitude v))]
       (q/with-translation [x y]
         (q/with-rotation [(fvec/heading v)]
           (q/line 0 0 len 0))))))
 
 (defn draw [state]
-  (q/background 255)
-  (q/stroke 0 150)
+  (q/background 0)
+  (q/stroke 255 55 141 255)
+  (q/stroke-weight 0.5)
   (draw-flow-field (:flow state)))
 
 (q/defsketch quil-workflow
