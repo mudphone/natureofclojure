@@ -42,6 +42,9 @@
 
 ;; Convenience:
 
+(defn from-angle [theta]
+  (fvec (Math/cos theta) (Math/sin theta)))
+
 (defn limit [v max-mag]
   (if (> (magnitude-squared v) (clojure.core/* max-mag max-mag))
     (* (normalize v) max-mag)
