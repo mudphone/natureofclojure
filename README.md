@@ -42,3 +42,4 @@ See others at the [nREPL README](https://github.com/kingtim/nrepl.el "nREPL READ
 
 Copyright © 2014  [Pas de Chocolat, LLC](http://pasdechocolat.com/ "Awesome website")  
 This work is licensed under a [Creative Commons Attribution-ShareAlike 2.0 Generic License](http://creativecommons.org/licenses/by-sa/2.0/ "Creative Commons Attribution-ShareAlike 2.0 Generic License").
+ 
