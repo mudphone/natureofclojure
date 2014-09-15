@@ -12,7 +12,7 @@
    [natureofclojure.math.fast-vector :as fv]))
 
 (defn setup []
-  {})1
+  {})
 
 (defn update [state]
   state)
