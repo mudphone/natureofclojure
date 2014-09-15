@@ -21,6 +21,9 @@
 (defn x-y [v]
   (.toList v))
 
+(defn dot [a b]
+  (matrix/dot a b))
+
 (defn normalize [v]
   (matrix/normalise v))
 
