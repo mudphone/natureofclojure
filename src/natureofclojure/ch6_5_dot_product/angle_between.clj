@@ -29,11 +29,9 @@
 
 (defn draw-text [v x-axis]
   (q/fill 0)
-  (let [d (fv/dot v x-axis)
-        theta (Math/acos (/ d (* (fv/magnitude v) (fv/magnitude x-axis))))
+  (let [theta (fv/angle-between v x-axis)
         degrees (* theta (/ 180.0 Math/PI))]
-    (q/text (str degrees " degrees\n" theta " radians") 10 160)
-    ))
+    (q/text (str degrees " degrees\n" theta " radians") 10 160)))
 
 (defn draw [state]
   (q/background 255)

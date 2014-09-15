@@ -45,6 +45,11 @@
 
 ;; Convenience:
 
+(defn angle-between [a b]
+  (let [dot-product (dot a b)]
+    (Math/acos (/ dot-product
+                  (* (magnitude a) (magnitude b))))))
+
 (defn from-angle [theta]
   (fvec (Math/cos theta) (Math/sin theta)))
 
