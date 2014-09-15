@@ -108,7 +108,7 @@
       (assoc-in [:y] (:y event))))
 
 (q/defsketch quil-workflow
-  :title "Steering Behavior: Seek"
+  :title "Dot Product: Projections"
   :size [800 600]
   :setup setup
   :update update
