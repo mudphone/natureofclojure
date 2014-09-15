@@ -31,7 +31,7 @@
   (q/fill 0)
   (let [theta (fv/angle-between v x-axis)
         degrees (* theta (/ 180.0 Math/PI))]
-    (q/text (str degrees " degrees\n" theta " radians") 10 160)))
+    (q/text (str (int degrees) " degrees\n" theta " radians") 10 160)))
 
 (defn draw [state]
   (q/background 255)
