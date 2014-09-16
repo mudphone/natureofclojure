@@ -18,12 +18,16 @@
 (def PATH-R 20.0)
 
 (def VEHICLE-R 5.0)
-(def VEHICLES
-  [{:location (fvec/fvec 20.0 20.0)
+
+(defn random-vehicle [x y]
+  {:location (fvec/fvec x y)
     :velocity (fvec/fvec 0.0 0.0)
     :acceleration (fvec/fvec 0.0 0.0)
-    :max-speed 4.0
-    :max-force 0.1}])
+    :max-speed (+ 4.0 (rand 4.0))
+    :max-force (+ 0.2 (rand 0.2))})
+
+(def VEHICLES
+  [(random-vehicle (rand SIZE-W) (rand SIZE-H))])
 
 (defn random-path []
   [(fvec/fvec 0.0    (rand SIZE-H))
@@ -60,36 +64,6 @@
         (q/vertex VEHICLE-R          (* 2.0 VEHICLE-R))
         (q/end-shape :close)))))
 
-#_(defn draw-vehicle-projection [a b vehicle]
-  (let [[a-x a-y] (fvec/x-y a)
-        mouse (:location vehicle)
-        [m-x m-y] (fvec/x-y mouse)]
-    (q/stroke 255)
-    (q/line a-x a-y m-x m-y)
-    (let [norm (scalar-projection mouse a b)
-          [norm-x norm-y] (fvec/x-y norm)]
-      (q/stroke 50)
-      (q/stroke-weight 1)
-      (q/line m-x m-y norm-x norm-y)
-
-      (q/no-stroke)
-      (q/fill 255 0 0)
-      (q/ellipse norm-x norm-y 16 16))))
-
-#_(defn draw-projections [vehicles]
-  (let [a (fvec/fvec 20 (- (q/height) 20))
-        [a-x a-y] (fvec/x-y a)
-        b (fvec/fvec (- (q/width) 50) (- (q/height) 70))
-        [b-x b-y] (fvec/x-y b)]
-    (q/stroke 255)
-    (q/stroke-weight 1)
-    (q/line a-x a-y b-x b-y)
-    (q/fill 255)
-    (q/ellipse a-x a-y 8 8)
-    (q/ellipse b-x b-y 8 8)
-    (dorun
-     (map (partial draw-vehicle-projection a b) vehicles))))
-
 (defn draw-path [path]
   (let [[a b] path
         [a-x a-y] (fvec/x-y a)
@@ -107,12 +81,14 @@
     (q/fill 255)
     (draw-path path)
     (q/fill 255 0 0)
-    (doall (map draw-vehicle vehicles))
-    #_(draw-projections vehicles)
-    ))
+    (doall (map draw-vehicle vehicles))))
 
 (defn key-pressed [state event]
   (assoc-in state [:path] (random-path)))
+
+(defn mouse-pressed [state event]
+  (let [{:keys [x y]} event]
+    (update-in state [:vehicles] #(conj % (random-vehicle x y)))))
 
 (q/defsketch quil-workflow
   :title "Steering Behaviors: Simple Path Following"
@@ -121,4 +97,5 @@
   :update update
   :draw draw
   :key-pressed key-pressed
+  :mouse-pressed mouse-pressed
   :middleware [m/fun-mode])
