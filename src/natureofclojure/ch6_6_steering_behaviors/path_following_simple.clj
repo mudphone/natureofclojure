@@ -15,6 +15,8 @@
 (def SIZE-W 800.0)
 (def SIZE-H 600.0)
 
+(def PATH-R 20.0)
+
 (def VEHICLE-R 5.0)
 (def VEHICLES
   [{:location (fvec/fvec 20.0 20.0)
@@ -35,7 +37,7 @@
 
 (defn update-vehicles [path vehicles]
   (doall (map #(->> %
-                    (beh/follow path)
+                    (beh/follow path PATH-R)
                     (beh/move-vehicle)
                     (beh/borders path VEHICLE-R))
               vehicles)))
@@ -92,8 +94,11 @@
   (let [[a b] path
         [a-x a-y] (fvec/x-y a)
         [b-x b-y] (fvec/x-y b)]
-    (q/stroke 0)
-    (q/stroke-weight 2)
+    (q/no-stroke)
+    (q/fill 200 255)
+    (q/quad a-x (+ a-y PATH-R) a-x (- a-y PATH-R) b-x (- b-y PATH-R) b-x (+ b-y PATH-R))
+    (q/stroke 100)
+    (q/stroke-weight 1)
     (q/line a-x a-y b-x b-y)))
 
 (defn draw [state]

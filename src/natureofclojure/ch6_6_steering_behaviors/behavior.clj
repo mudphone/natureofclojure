@@ -8,8 +8,6 @@
    [quil.middleware :as m]
    [natureofclojure.math.fast-vector :as fvec]))
 
-(def PATH-R 20.0)
-
 (defn steer [target vehicle]
   (let [{:keys [location max-force max-speed velocity]} vehicle
         desired (fvec/- target location)
@@ -17,7 +15,7 @@
         steer-f (fvec/limit (fvec/- desired velocity) max-force)]
     (update-in vehicle [:acceleration] #(fvec/+ % steer-f))))
 
-(defn follow [path vehicle]
+(defn follow [path path-r vehicle]
   (let [;; Predict location in future
         predict (fvec/* (fvec/normalize (:velocity vehicle)) 50)
         predict-loc (fvec/+ (:location vehicle) predict)
@@ -34,7 +32,7 @@
 
         ;; Only steer if outside path radius
         d (fvec/distance predict-loc normal-point)]
-    (if (> d PATH-R)
+    (if (> d path-r)
       (steer target vehicle)
       vehicle)))
 
