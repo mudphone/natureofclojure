@@ -12,6 +12,9 @@
 (setup-vectorz)
 
 ;; Implementation Specific:
+(defn distance [a b]
+  (matrix/distance a b))
+
 (defn magnitude-squared [v]
   (.magnitudeSquared v))
 
@@ -45,7 +48,9 @@
 
 ;; Convenience:
 
-(defn angle-between [a b]
+(defn angle-between
+  "Computes the angle (in radians) between two vectors."
+  [a b]
   (let [dot-product (dot a b)]
     (Math/acos (/ dot-product
                   (* (magnitude a) (magnitude b))))))
@@ -61,3 +66,12 @@
 (defn heading [v]
   (let [[x y] (x-y v)]
    (* -1.0 (Math/atan2 (* -1.0 y) x))))
+
+(defn scalar-projection
+  "Computes the scalar projection of vector p on vector from a to b."
+  [p a b]
+  (let [ap (- p a)
+        ab (- b a)
+        ab-unit (normalize ab)
+        shadow (* (dot ap ab-unit) ab-unit)]
+    (+ a shadow)))
