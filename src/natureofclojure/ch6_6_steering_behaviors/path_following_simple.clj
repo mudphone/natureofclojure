@@ -23,9 +23,11 @@
     :max-speed 4.0
     :max-force 0.1}])
 
-(def PATH
+(defn random-path []
   [(fvec/fvec 0.0    (rand SIZE-H))
    (fvec/fvec SIZE-W (rand SIZE-H))])
+
+(def PATH (random-path))
 
 (defn setup []
   {:vehicles VEHICLES
@@ -104,10 +106,14 @@
     #_(draw-projections vehicles)
     ))
 
+(defn key-pressed [state event]
+  (assoc-in state [:path] (random-path)))
+
 (q/defsketch quil-workflow
   :title "Steering Behaviors: Simple Path Following"
   :size [SIZE-W SIZE-H]
   :setup setup
   :update update
   :draw draw
+  :key-pressed key-pressed
   :middleware [m/fun-mode])
