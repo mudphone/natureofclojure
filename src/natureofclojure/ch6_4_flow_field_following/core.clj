@@ -33,6 +33,7 @@
              [[x y] (f-vec x y T)])))
 
 (defn setup []
+  (q/frame-rate 60)
   {:time T
    :flow (init-flow-field)})
 
