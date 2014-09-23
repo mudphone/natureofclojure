@@ -26,9 +26,13 @@ You can view these example sketches by running them from the repl.  I use Emacs 
 Starting with Chapter 3, part 4, I've started working with Quil Middleware and Functional mode. This is how you get it to run.
 ````clojure
 ;; go to buffer for the example you wish to run
-C-c M-j       ;;  M-x cider-jack-in
-C-c M-n       ;;  M-x cider-repl-set-ns
-C-c C-k       ;; in the sketch's buffer to eval namespace.
+C-c M-j                ;;  M-x cider-jack-in
+C-c M-n                ;;  M-x cider-repl-set-ns (optional)
+M-x cider-eval-buffer  ;; keybinding?
+
+;; Make changes
+C-c C-e                ;; M-x cider-eval-last-sexp
+                       ;;  This hot-reloades your changes.
 ````
 
 Helpful buffer commands for working with nREPL:  
