@@ -26,9 +26,14 @@
     :max-speed (+ 4.0 (rand 4.0))
     :max-force (+ 0.2 (rand 0.2))})
 
+(def QTR-H (/ SIZE-H 4.0))
+(def HALF-H (/ SIZE-H 2.0))
+
 (defn random-path []
   [(fvec/fvec 0.0    (rand SIZE-H))
-   (fvec/fvec (/ SIZE-W 2.0) (rand SIZE-H))
+   (fvec/fvec (* SIZE-W (/ 1.0 4.0)) (+ QTR-H (rand HALF-H)))
+   (fvec/fvec (* SIZE-W (/ 2.0 4.0)) (+ QTR-H (rand HALF-H)))
+   (fvec/fvec (* SIZE-W (/ 3.0 4.0)) (+ QTR-H (rand HALF-H)))
    (fvec/fvec SIZE-W (rand SIZE-H))])
 
 (defn setup []
@@ -39,17 +44,17 @@
   (let [norm (apply (partial fvec/scalar-projection location) segment)]
     [norm segment]))
 
+(defn path-segments [path]
+  (partition 2 1 path))
+
 (defn closest-segment [path location]
-  (let [segments (partition 2 1 path)
-        norm-segs (map (partial insert-normal location)
-                       segments)
-        valid-pts (filter (fn [[norm [p-a p-b]]]
-                            (let [[n-x _] (fvec/x-y norm)
-                                  [a-x _] (fvec/x-y p-a)
-                                  [b-x _] (fvec/x-y p-b)]
-                              (and (<= a-x n-x)
-                                   (<= n-x b-x))))
-                          norm-segs)
+  (let [norm-segs (map (partial insert-normal location)
+                       (path-segments path))
+        valid-pts (map (fn [[norm [p-a p-b :as seg]]]
+                         ;; Unfortunately have to clamp twice.
+                         (let [n (beh/clamped-normal norm p-a p-b)]
+                           [n seg]))
+                       norm-segs)
         dist-segs (doall
                    (map (fn [[norm segment]]
                           [(fvec/distance location norm) segment])
@@ -91,7 +96,7 @@
         (q/vertex VEHICLE-R          (* 2.0 VEHICLE-R))
         (q/end-shape :close)))))
 
-(defn draw-path [path]
+(defn draw-path-segment [path]
   (let [[a b] path
         [a-x a-y] (fvec/x-y a)
         [b-x b-y] (fvec/x-y b)]
@@ -101,6 +106,10 @@
     (q/stroke 100)
     (q/stroke-weight 1)
     (q/line a-x a-y b-x b-y)))
+
+(defn draw-path [path]
+  (doseq [segment (path-segments path)]
+    (draw-path-segment segment)))
 
 (defn draw [state]
   (q/background 255)
@@ -117,7 +126,7 @@
   (let [{:keys [x y]} event]
     (update-in state [:vehicles] #(conj % (random-vehicle x y)))))
 
-#_(q/defsketch quil-workflow
+(q/defsketch quil-workflow
   :title "Steering Behaviors: Complex Path Following"
   :size [SIZE-W SIZE-H]
   :setup setup

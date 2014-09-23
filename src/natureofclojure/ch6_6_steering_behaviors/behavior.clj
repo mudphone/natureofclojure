@@ -15,6 +15,15 @@
         steer-f (fvec/limit (fvec/- desired velocity) max-force)]
     (update-in vehicle [:acceleration] #(fvec/+ % steer-f))))
 
+(defn clamped-normal [normal-point a b]
+  (let [[n-x _] (fvec/x-y normal-point)
+        [a-x _] (fvec/x-y a)
+        [b-x _] (fvec/x-y b)]
+    (if (and (<= a-x n-x)
+             (<= n-x b-x))
+      normal-point
+      b)))
+
 (defn follow [path path-r vehicle]
   (let [;; Predict location in future
         predict (fvec/* (fvec/normalize (:velocity vehicle)) 50)
@@ -25,6 +34,7 @@
 
         ;; Get normal point to that line
         normal-point (fvec/scalar-projection predict-loc a b)
+        normal-point (clamped-normal normal-point a b)
 
         ;; Find target point a little ahead of the normal
         dir (fvec/* (fvec/normalize (fvec/- b a)) 10)
