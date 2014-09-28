@@ -15,7 +15,7 @@
 (def SIZE-W 800.0)
 (def SIZE-H 600.0)
 
-(def VEHICLE-R 10.0)
+(def VEHICLE-R 30.0)
 (def VEHICLE-D (* 2 VEHICLE-R))
 
 (def SEPARATION-DIST VEHICLE-D)
@@ -25,11 +25,10 @@
      (random-vehicle (rand SIZE-W) (rand SIZE-H)))
   ([x y]
      {:location (fvec/fvec x y)
-      :velocity (fvec/fvec (- (rand 80.0) 40.0)
-                           (- (rand 80.0) 40.0))
+      :velocity (fvec/fvec 0.0 0.0)
       :acceleration (fvec/fvec 0.0 0.0)
-      :max-speed (+ 4.0 (rand 4.0))
-      :max-force (+ 0.2 (rand 0.2))}))
+      :max-speed 3.0
+      :max-force 0.2}))
 
 (def VEHICLES
   (vec
@@ -57,9 +56,10 @@
       (q/ellipse 0 0 VEHICLE-D VEHICLE-D))))
 
 (defn draw [state]
-  (q/background 255)
+  (q/background 0)
   (let [{:keys [vehicles]} state]
-    (q/fill 255 0 0)
+    (q/stroke 0.5)
+    (q/fill 180)
     (doall (map draw-vehicle vehicles))))
 
 (defn mouse-dragged [state event]
