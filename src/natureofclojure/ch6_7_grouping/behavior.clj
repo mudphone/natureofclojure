@@ -21,6 +21,27 @@
   (and (> d 0.0)
        (< d upper-d)))
 
+(defn glom [glom-dist all vehicle]
+  (let [{:keys [location max-force max-speed velocity]} vehicle
+        dist-veh (doall
+                  (->> all
+                       (dist-vehicle location)
+                       (filter (fn [[d _]] (between-0 glom-dist d)))))
+        num-vehicles (count dist-veh)]
+    (if (< 0 num-vehicles)
+      (let [sum-loc (doall
+                     (reduce (fn [sum [d v]]
+                               (fvec/+ sum (:location v)))
+                             (fvec/fvec 0 0) dist-veh))
+            steer (-> sum-loc
+                      (fvec/- location)
+                      (fvec/normalize)
+                      (fvec/* max-speed)
+                      (fvec/- velocity)
+                      (fvec/limit max-force))]
+        (apply-force vehicle steer))
+      vehicle)))
+
 (defn separate [separation-dist all vehicle]
   (let [{:keys [location max-force max-speed velocity]} vehicle
         dist-veh (doall
