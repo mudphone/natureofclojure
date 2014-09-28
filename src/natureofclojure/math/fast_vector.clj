@@ -45,6 +45,9 @@
 (defn * [a b]
   (mop/* a b))
 
+(defn / [a b]
+  (mop// a b))
+
 
 ;; Convenience:
 
