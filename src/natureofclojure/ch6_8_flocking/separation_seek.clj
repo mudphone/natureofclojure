@@ -88,7 +88,7 @@
     (update-in state [:vehicles] #(conj % (random-vehicle x y)))))
 
 (q/defsketch quil-workflow
-  :title "Group Steering Behaviors: Separation"
+  :title "Group Steering Behaviors: Separation & Seek"
   :size [SIZE-W SIZE-H]
   :setup setup
   :update update
