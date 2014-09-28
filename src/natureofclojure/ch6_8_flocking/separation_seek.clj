@@ -3,7 +3,7 @@
 ;; http://natureofcode.com
 ;;
 ;; Specifically:
-;; 
+;; https://github.com/shiffman/The-Nature-of-Code-Examples/tree/master/chp6_agents/NOC_6_08_SeparationAndSeek
 ;;
 (ns natureofclojure.ch6-8-flocking.separation-seek
   (:require
