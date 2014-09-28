@@ -78,3 +78,9 @@
         ab-unit (normalize ab)
         shadow (* (dot ap ab-unit) ab-unit)]
     (+ a shadow)))
+
+(defn set-mag
+  "Create a vector with the magnitude given by len."
+  [v len]
+  (-> (normalize v)
+      (* len)))

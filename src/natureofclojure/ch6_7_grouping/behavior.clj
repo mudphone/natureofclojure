@@ -14,28 +14,55 @@
             [d v]))
         vehicles))
 
+(defn apply-force [vehicle f-vector]
+  (update-in vehicle [:acceleration] #(fvec/+ % f-vector)))
+
+(defn between-0 [upper-d d]
+  (and (> d 0.0)
+       (< d upper-d)))
+
+(defn separate [separation-dist all vehicle]
+  (let [{:keys [location max-force max-speed velocity]} vehicle
+        dist-veh (doall
+                  (->> all
+                       (dist-vehicle location)
+                       (filter (fn [[d _]] (between-0 separation-dist d)))))
+        num-vehicles (count dist-veh)]
+    (if (< 0 num-vehicles)
+      (let [sum-dir (doall
+                     (reduce (fn [avg-dir [d v]]
+                               (let [diff (-> (fvec/- location (:location v))
+                                              (fvec/normalize)
+                                              (fvec// d))]
+                                 (fvec/+ avg-dir diff)))
+                             (fvec/fvec 0 0) dist-veh))
+            steer (-> sum-dir
+                      (fvec/normalize)
+                      (fvec/set-mag max-speed)
+                      (fvec/- velocity)
+                      (fvec/limit max-force))]
+        (apply-force vehicle steer))
+      vehicle)))
+
 (defn align [neighbor-dist all vehicle]
   (let [{:keys [location max-force max-speed velocity]} vehicle
         dist-veh (doall
                   (->> all
                        (dist-vehicle location)
-                       (filter (fn [[d _]]
-                                 (and (> d 0.0)
-                                      (< d neighbor-dist))))))
-        num-vehicles (count dist-veh)
-        ]
+                       (filter (fn [[d _]] (between-0 neighbor-dist d)))))
+        num-vehicles (count dist-veh)]
     (if (< 0 num-vehicles)
       (let [sum-dir (doall
                      (reduce (fn [avg-dir [d v]]
                                (fvec/+ avg-dir (:velocity v)))
                              (fvec/fvec 0 0) dist-veh))
             steer (-> sum-dir
-                  (fvec// num-vehicles)
-                  (fvec/normalize)
-                  (fvec/* max-speed)
-                  (fvec/- velocity)
-                  (fvec/limit max-force))]
-        (update-in vehicle [:acceleration] #(fvec/+ % steer)))
+                      (fvec// num-vehicles)
+                      (fvec/normalize)
+                      (fvec/* max-speed)
+                      (fvec/- velocity)
+                      (fvec/limit max-force))]
+        (apply-force vehicle steer))
       vehicle)))
 
 (defn borders
