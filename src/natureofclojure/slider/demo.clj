@@ -12,18 +12,32 @@
 (def SIZE-H 600.0)
 
 (defn setup []
-  {:sliders [(slider/slider {:x 10 :y 10})
-             (slider/slider {:x 10 :y 100})]})
+  {:sliders [(slider/slider {:x 10 :y 10 :label "Slider A"})
+             (slider/slider {:x 10 :y 100 :label "Slider B"})]})
 
 (defn update [state]
   (-> state
       (update-in [:sliders] #(doall
                               (mapv slider/update %)))))
 
-(defn draw [state]
+(defn draw-slider-label [slider]
+  (let [{:keys [x-pos y-pos w h label]} slider
+        v (slider/get-pos slider)
+        spacing 4.0]
+    (q/push-style)
+    (q/fill 255)
+    (q/text-align :left)
+    (q/text (str label ": " (format "%.3f" v))
+            (+ x-pos w spacing)
+            (+ y-pos h))
+    (q/pop-style)))
+
+(defn draw [{:keys [sliders]}]
   (q/background 0)
   (dorun
-   (map slider/draw (:sliders state))))
+   (map slider/draw sliders))
+  (dorun
+   (map draw-slider-label sliders)))
 
 (q/defsketch quil-workflow
   :title "Slider Demo"

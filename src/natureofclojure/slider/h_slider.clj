@@ -10,9 +10,10 @@
    [quil.core :as q]))
 
 (defn slider
-  [{:keys [x y w h loose] :or {w 200.0 h 20.0 loose 2.0}}]
+  [{:keys [x y w h label loose] :or {w 200.0 h 20.0 label "" loose 2.0}}]
   {:w w
    :h h
+   :label label
    :loose loose
    :x-pos x
    :y-pos (- y (/ h 2.0))
