@@ -21,6 +21,51 @@
   (and (> d 0.0)
        (< d upper-d)))
 
+(defn align
+  "Returns the alignment force for nearby vehicles, an average
+  velocity of sorts. This force must be applied."
+  [neighbor-dist all vehicle]
+  (let [{:keys [location max-force max-speed velocity]} vehicle
+        dist-veh (doall
+                  (->> all
+                       (dist-vehicle location)
+                       (filter (fn [[d _]] (between-0 neighbor-dist d)))))
+        num-vehicles (count dist-veh)]
+    (if (< 0 num-vehicles)
+      (let [sum-dir (doall
+                     (reduce (fn [avg-dir [d v]]
+                               (fvec/+ avg-dir (:velocity v)))
+                             (fvec/fvec 0 0) dist-veh))]
+        (-> sum-dir
+            (fvec// num-vehicles)
+            (fvec/normalize)
+            (fvec/* max-speed)
+            (fvec/- velocity)
+            (fvec/limit max-force)))
+      (fvec/fvec 0.0 0.0))))
+
+(defn glom
+  "Returns the cohesive force, which must be applied."
+  [glom-dist all vehicle]
+  (let [{:keys [location max-force max-speed velocity]} vehicle
+        dist-veh (doall
+                  (->> all
+                       (dist-vehicle location)
+                       (filter (fn [[d _]] (between-0 glom-dist d)))))
+        num-vehicles (count dist-veh)]
+    (if (< 0 num-vehicles)
+      (let [sum-loc (doall
+                     (reduce (fn [sum [d v]]
+                               (fvec/+ sum (:location v)))
+                             (fvec/fvec 0 0) dist-veh))]
+        (-> sum-loc
+            (fvec/- location)
+            (fvec/normalize)
+            (fvec/* max-speed)
+            (fvec/- velocity)
+            (fvec/limit max-force)))
+      (fvec/fvec 0.0 0.0))))
+
 (defn seek
   "Returns the seek force, which must be applied."
   [target vehicle]
