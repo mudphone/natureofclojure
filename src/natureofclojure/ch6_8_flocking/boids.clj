@@ -15,8 +15,7 @@
 (def SIZE-W 800.0)
 (def SIZE-H 600.0)
 
-(def VEHICLE-R 10.0)
-(def VEHICLE-D (* 2 VEHICLE-R))
+(def VEHICLE-R 4.0)
 
 (def SEPARATION-DIST 30)
 (def NEIGHBOR-DIST 100)
@@ -78,10 +77,17 @@
       (update-in [:vehicles] update-vehicles)))
 
 (defn draw-vehicle
-  [{:keys [location]}]
-  (let [[x y] (fvec/x-y location)]
+  [{:keys [location velocity]}]
+  (let [[x y] (fvec/x-y location)
+        theta (+ (/ Math/PI 2.0)
+                 (fvec/heading velocity))]
     (q/with-translation [x y]
-      (q/ellipse 0 0 VEHICLE-D VEHICLE-D))))
+      (q/with-rotation [theta]
+        (q/begin-shape)
+        (q/vertex 0                  (* -2.0 VEHICLE-R))
+        (q/vertex (* -1.0 VEHICLE-R) (* 2.0 VEHICLE-R))
+        (q/vertex VEHICLE-R          (* 2.0 VEHICLE-R))
+        (q/end-shape :close)))))
 
 (defn draw [state]
   (q/background 0)
