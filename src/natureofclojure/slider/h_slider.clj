@@ -54,24 +54,20 @@
                    (assoc-in [:scrollbar?] false)
                    (assoc-in [:locked?] false)))
         
-        s (cond-> s
-                  (:locked? s)
-                  (->
-                   (as-> s
-                         (assoc-in s [:new-s-pos] (constrain (- (q/mouse-x)
-                                                                (/ (:h s)
-                                                                   2.0))
-                                                             (:s-pos-min s)
-                                                             (:s-pos-max s))))))
-        s (cond-> s
-                  (> (Math/abs (- (:new-s-pos s)
-                                  (:s-pos s)))
-                     0)
-                  (as-> s
-                        (update-in s [:s-pos] #(+ %
-                                                  (/ (- (:new-s-pos s)
-                                                        %)
-                                                     (:loose s))))))]
+        s (if (:locked? s)
+            (assoc-in s [:new-s-pos] (constrain (- (q/mouse-x)
+                                                   (/ (:h s)
+                                                      2.0))
+                                                (:s-pos-min s)
+                                                (:s-pos-max s)))
+            s)
+        s (if-not (= (:new-s-pos s)
+                     (:s-pos s))
+            (update-in s [:s-pos] #(+ %
+                                      (/ (- (:new-s-pos s)
+                                            %)
+                                         (:loose s))))
+            s)]
     s))
 
 (defn set-pos
