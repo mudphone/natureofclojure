@@ -25,38 +25,35 @@
    :scrollbar? false
    :locked? false})
 
-(defn over? [slider]
-  (let [mx (q/mouse-x)
-        my (q/mouse-y)]
-    (and (> mx (:x-pos slider))
-         (< mx (+ (:x-pos slider)
-                  (:w slider)))
-         (> my (:y-pos slider))
-         (< my (+ (:y-pos slider)
-                  (:h slider))))))
+(defn over? [slider mx my]
+  (and (> mx (:x-pos slider))
+       (< mx (+ (:x-pos slider)
+                (:w slider)))
+       (> my (:y-pos slider))
+       (< my (+ (:y-pos slider)
+                (:h slider)))))
 
 (defn constrain [x x-min x-max]
   (max x-min (min x x-max)))
 
-(defn update [slider]
+(defn update [slider m-x m-y mouse-pressed?]
   (let [s slider
-        o? (over? s)
-        mp? (q/mouse-pressed?)
+        o? (over? s m-x m-y)
         s (assoc-in s [:over?] o?)
 
         s (cond-> s
-                  (and mp? o?)
+                  (and mouse-pressed? o?)
                   (->
                    (assoc-in [:scrollbar?] true)
                    (assoc-in [:locked?] true))
 
-                  (not mp?)
+                  (not mouse-pressed?)
                   (->
                    (assoc-in [:scrollbar?] false)
                    (assoc-in [:locked?] false)))
         
         s (if (:locked? s)
-            (assoc-in s [:new-s-pos] (constrain (- (q/mouse-x)
+            (assoc-in s [:new-s-pos] (constrain (- m-x
                                                    (/ (:h s)
                                                       2.0))
                                                 (:s-pos-min s)
