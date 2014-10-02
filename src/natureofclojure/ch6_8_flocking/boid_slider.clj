@@ -53,7 +53,7 @@
 
 (def SLIDERS [(-> (slider/slider {:x 10 :y 20 :h 10 :label "separation"})
                   (slider/set-pos 0.5))
-              (-> (slider/slider {:x 10 :y 40 :h 10 :label "neighbor"})
+              (-> (slider/slider {:x 10 :y 40 :h 10 :label "alignment"})
                   (slider/set-pos 0.5))
               (-> (slider/slider {:x 10 :y 60 :h 10 :label "cohesion"})
                   (slider/set-pos 0.5))])
@@ -129,14 +129,24 @@
 
 (defn draw [state]
   (q/background 0)
-  (let [{:keys [vehicles]} state]
+  (let [{:keys [sliders vehicles]} state]
+    (doall (map (comp
+                 slider/draw
+                 slider/draw-slider-label)
+                sliders))
     (q/stroke 0.5)
     (q/fill 180)
     (doall (map draw-vehicle vehicles))))
 
+(defn is-over-sliders? [x y]
+  (and (< x (/ SIZE-W 2.0))
+       (< y (/ SIZE-H 2.0))))
+
 (defn mouse-dragged [state event]
   (let [{:keys [x y]} event]
-    (update-in state [:vehicles] #(conj % (random-vehicle x y)))))
+    (if-not (is-over-sliders? x y)
+      (update-in state [:vehicles] #(conj % (random-vehicle x y)))
+      state)))
 
 (q/defsketch quil-workflow
   :title "Flocking: Boids"

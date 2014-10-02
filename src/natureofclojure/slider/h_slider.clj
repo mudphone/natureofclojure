@@ -98,4 +98,18 @@
     (q/fill 102 102 102))
   (q/rect (:s-pos slider) (:y-pos slider)
           (:h slider) (:h slider))
-  (q/pop-style))
+  (q/pop-style)
+  slider)
+
+(defn draw-slider-label [slider]
+  (let [{:keys [x-pos y-pos w h label]} slider
+        v (get-pos slider)
+        spacing 4.0]
+    (q/push-style)
+    (q/fill 255)
+    (q/text-align :left)
+    (q/text (str label ": " (format "%.3f" v))
+            (+ x-pos w spacing)
+            (+ y-pos h))
+    (q/pop-style)
+    slider))
