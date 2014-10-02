@@ -18,16 +18,27 @@
 
 (def VEHICLE-R 4.0)
 
+(def SEPARATION-FACTOR 1.5)
 (def SEPARATION-DIST 30)
+(def ALIGN-FACTOR 1.0)
 (def NEIGHBOR-DIST 100)
+(def GLOM-FACTOR 1.0)
 (def GLOM-DIST 50)
 
 (def SEP-FACTOR-MIN 0.0)
 (def SEP-FACTOR-MAX 5.0)
+(def SEP-DIST-MIN 0.0)
+(def SEP-DIST-MAX 300.0)
+
 (def ALIGN-FACTOR-MIN 0.0)
 (def ALIGN-FACTOR-MAX 5.0)
+(def NEIGHBOR-DIST-MIN 0.0)
+(def NEIGHBOR-DIST-MAX 300.0)
+
 (def GLOM-FACTOR-MIN 0.0)
 (def GLOM-FACTOR-MAX 5.0)
+(def GLOM-DIST-MIN 0.0)
+(def GLOM-DIST-MAX 300.0)
 
 (defn random-v-comp []
   (let [r (+ 20.0 (rand 40.0))]
@@ -51,30 +62,49 @@
    (for [_ (range 10)]
      (random-vehicle))))
 
-(def SLIDERS [(-> (slider/slider {:x 10 :y 20 :h 10 :label "separation"})
-                  (slider/set-pos 0.5))
-              (-> (slider/slider {:x 10 :y 40 :h 10 :label "alignment"})
-                  (slider/set-pos 0.5))
-              (-> (slider/slider {:x 10 :y 60 :h 10 :label "cohesion"})
-                  (slider/set-pos 0.5))])
+(defn map-pos [v min-v max-v]
+  (q/map-range v min-v max-v 0.0 1.0))
+
+(defn gen-slider [n label pos]
+  (let [y (* (inc n) 20)]
+   (-> (slider/slider {:x 10 :y y :w 100 :h 10 :label label})
+       (slider/set-pos pos))))
+
+(def SLIDERS [(gen-slider 0 "separation force"
+                          (map-pos SEPARATION-FACTOR SEP-FACTOR-MIN SEP-FACTOR-MAX))
+              (gen-slider 1 "separation distance"
+                          (map-pos SEPARATION-DIST SEP-DIST-MIN SEP-DIST-MAX))
+              (gen-slider 2 "alignment force"
+                          (map-pos ALIGN-FACTOR ALIGN-FACTOR-MIN ALIGN-FACTOR-MAX))
+              (gen-slider 3 "neighbor distance"
+                          (map-pos NEIGHBOR-DIST NEIGHBOR-DIST-MIN NEIGHBOR-DIST-MAX))
+              (gen-slider 4 "glom force"
+                          (map-pos GLOM-FACTOR GLOM-FACTOR-MIN GLOM-FACTOR-MAX))
+              (gen-slider 5 "glom distance"
+                          (map-pos GLOM-DIST GLOM-DIST-MIN GLOM-DIST-MAX))])
 
 (defn setup []
   (-> {:vehicles VEHICLES
        :sliders SLIDERS
-       :sep-factor   1.5
-       :align-factor 1.0
-       :glom-factor  1.0}))
+       :sep-factor    SEPARATION-FACTOR
+       :sep-dist      SEPARATION-DIST
+       :align-factor  ALIGN-FACTOR
+       :neighbor-dist NEIGHBOR-DIST
+       :glom-factor   GLOM-FACTOR
+       :glom-dist     GLOM-DIST}))
 
 (defn flock [state all vehicle]
-  (let [{:keys [sep-factor align-factor glom-factor]} state
+  (let [{:keys [sep-factor   sep-dist
+                align-factor neighbor-dist
+                glom-factor  glom-dist]} state
         sep-force   (fvec/*
-                     (beh/separate SEPARATION-DIST all vehicle)
+                     (beh/separate sep-dist all vehicle)
                      sep-factor)
         align-force (fvec/*
-                     (beh/align NEIGHBOR-DIST all vehicle)
+                     (beh/align neighbor-dist all vehicle)
                      align-factor)
         glom-force  (fvec/*
-                     (beh/glom GLOM-DIST all vehicle)
+                     (beh/glom glom-dist all vehicle)
                      glom-factor)]
     (-> vehicle
         (beh/apply-force sep-force)
@@ -103,14 +133,25 @@
         updated-sliders (update-sliders sliders m-x m-y mouse-pressed?)
         sep-v   (map-factor (slider/get-pos (nth updated-sliders 0))
                             SEP-FACTOR-MIN SEP-FACTOR-MAX)
-        align-v (map-factor (slider/get-pos (nth updated-sliders 1))
-                            ALIGN-FACTOR-MIN ALIGN-FACTOR-MAX)
-        glom-v  (map-factor (slider/get-pos (nth updated-sliders 2))
-                            GLOM-FACTOR-MIN GLOM-FACTOR-MAX)]
+        sep-d   (map-factor (slider/get-pos (nth updated-sliders 1))
+                            SEP-DIST-MIN SEP-DIST-MAX)
+        
+        align-v    (map-factor (slider/get-pos (nth updated-sliders 2))
+                               ALIGN-FACTOR-MIN ALIGN-FACTOR-MAX)
+        neighbor-d (map-factor (slider/get-pos (nth updated-sliders 3))
+                               NEIGHBOR-DIST-MIN NEIGHBOR-DIST-MAX)
+        
+        glom-v  (map-factor (slider/get-pos (nth updated-sliders 4))
+                            GLOM-FACTOR-MIN GLOM-FACTOR-MAX)
+        glom-d  (map-factor (slider/get-pos (nth updated-sliders 5))
+                            GLOM-DIST-MIN GLOM-DIST-MAX)]
     (-> state
         (assoc-in [:sep-factor] sep-v)
+        (assoc-in [:sep-dist] sep-d)
         (assoc-in [:align-factor] align-v)
+        (assoc-in [:neighbor-dist] neighbor-d)
         (assoc-in [:glom-factor] glom-v)
+        (assoc-in [:glom-dist] glom-d)
         (#(update-in % [:vehicles] (partial update-vehicles %)))
         (assoc-in [:sliders] updated-sliders))))
 
